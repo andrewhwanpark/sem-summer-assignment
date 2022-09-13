@@ -7,6 +7,30 @@ def main():
     print(calculate_max_coverage(timestamps, total_cov))
 
 
+def create_output_files():
+    for i in range(1, 11):
+        with open(f"{i}.in", "r") as f:
+            timestamps = parse_file_input(f)
+            total_cov = merge_intervals_and_calculate_total_cov(timestamps)
+            res = calculate_max_coverage(timestamps, total_cov)
+
+            with open(f"{i}.out", "w") as f:
+                f.write(str(res))
+
+
+def parse_file_input(f):
+    timestamps = []
+    N = int(f.readline().strip())
+
+    for _ in range(N):
+        times = f.readline().strip().split(" ")
+        timestamps.append([int(times[0]), int(times[1])])
+
+    timestamps.sort(key=lambda x: x[0])
+
+    return timestamps
+
+
 def parse_input():
     timestamps = []
     N = int(sys.stdin.readline().strip())
@@ -89,4 +113,7 @@ def calculate_max_coverage(timestamps, total_cov):
     return total_cov - min_nonoverlap_cov
 
 
-main()
+if __name__ == "__main__":
+    main()
+    # Uncomment this line to read 1.in to 10.in files and create output
+    # create_output_files()
